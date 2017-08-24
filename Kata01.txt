@@ -37,7 +37,7 @@ DB
 
 The output file called states.txt would then contain 6 visualizations of the 
 game state, the initial state + all 5 resulting states from the commands.
-If we assume the game board is 4 x 4, and the robot starts in the lower right
+If we assume the game board is 2 x 2, and the robot starts in the lower right
 corner, facing North - the example states.txt file would be
 --------------------------------------------------------------------------------
 [ ][ ]
