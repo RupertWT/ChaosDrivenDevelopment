@@ -7,34 +7,27 @@ public class GameState {
 	private int gridSize = 2;
 
 	
-	public String playCommands(int startRow, int startColumn, String startOrientation, String command) {
-				
-		return gameResults + "\n\n" + doCommand(startRow, startColumn, startOrientation, command);
+	public String playCommands(int startRow, int startColumn, String startOrientation, String[] commands) {
+		
+		String command = "";
+		for (int i = 0; i < commands.length; i++) {
+			
+			command = commands[i].toString();
+			gameBoard = doCommand(startRow, startColumn, startOrientation, command);
+			gameResults += "\n\n";
+			gameResults += gameBoard;
+			
+		}
+			
+		return gameResults;
 		
 	}
 		
 	
 	public String doCommand(int startRow, int startColumn, String startOrientation, String command) {
 		
-		int newRow = startRow;
-		if (startOrientation.equals("N")) {			
-			if (command.equals("DF")) {
-				newRow -= 1;
-			} else if (command.equals("DB")) {
-				newRow += 1;
-			}
-		}
-		
-		int newColumn = startColumn;
-		if (startOrientation.equals("W")) {
-			if (command.equals("DF")) {
-				newColumn -= 1;
-			} else if (command.equals("DB")) {
-				newColumn += 1;
-			}
-		}
-		
-		
+		int newRow = verticalMove(startRow, startOrientation, command);
+		int newColumn = horizontalMove(startColumn, startOrientation, command);
 		String finalStringOrientation = reorientate(startOrientation, command);
 		
 		drawBoard(newRow, newColumn, finalStringOrientation);
@@ -44,6 +37,67 @@ public class GameState {
 	
 	}
 
+
+	
+
+	private int verticalMove(int startRow, String startOrientation, String command) {
+		
+		int newRow = startRow;
+		if (startOrientation.equals("N")) {			
+			if (command.equals("DF")) {
+				newRow -= 1;
+			} 
+			if (command.equals("DB")) {
+				newRow += 1;
+			}
+		}
+		
+		if (startOrientation.equals("S")) {			
+			if (command.equals("DF")) {
+				newRow += 1;
+			} 
+			if (command.equals("DB")) {
+				newRow -= 1;
+			}
+		}
+		
+		checkForOffMapExceptions(newRow);
+		
+		System.out.println(newRow);
+		return newRow;
+	}
+
+	private int horizontalMove(int startColumn, String startOrientation, String command) {
+		int newColumn = startColumn;
+		if (startOrientation.equals("W")) {
+			if (command.equals("DF")) {
+				newColumn -= 1;
+			} 
+			if (command.equals("DB")) {
+				newColumn += 1;
+			}
+		}
+		
+		if (startOrientation.equals("E")) {
+			if (command.equals("DF")) {
+				newColumn += 1;
+			} 
+			if (command.equals("DB")) {
+				newColumn -= 1;
+			}
+		}
+		
+		checkForOffMapExceptions(newColumn);
+		
+		return newColumn;
+	}
+
+
+	private void checkForOffMapExceptions(int columnOrRow) {
+		if (columnOrRow >= gridSize || columnOrRow < 0) {
+			throw new IllegalArgumentException("The avatar has fallen off the map!");
+		}
+	}
 
 	private String reorientate(String startOrientation, String command) {
 		
