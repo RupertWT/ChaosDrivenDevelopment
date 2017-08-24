@@ -14,7 +14,8 @@ public class GameStateTest {
 			assertEquals("[][]\n[][N]", play.doCommand(1,1,"N",""));
 		}
 		
-		//drive commands
+		//individual commands
+		//drive forward commands
 		@Test
 		public void driveForwardCommandNorthOrientation2X2Board() {
 			GameState play = new GameState();
@@ -22,12 +23,21 @@ public class GameStateTest {
 		}
 		
 		@Test
+		public void driveForwardCommandWestOrientation2X2Board() {
+			GameState play = new GameState();
+			assertEquals("[][]\n[W][]", play.doCommand(1,1,"W","DF"));
+		}
+		
+		//individual commands
+		//drive backwards commands
+		@Test
 		public void driveBackwardCommandNorthOrientation2X2Board() {
 			GameState play = new GameState();
 			assertEquals("[][]\n[][N]", play.doCommand(0,1,"N","DB"));
 		}
-		
-		//turn commands
+			
+		//individual commands
+		//turn right commands
 		@Test
 		public void turnRightCommandFromNorthOrientation2X2Board() {
 			GameState play = new GameState();
@@ -35,12 +45,25 @@ public class GameStateTest {
 		}
 		
 		@Test
+		public void turnRightCommandFromSouthOrientation2X2Board() {
+			GameState play = new GameState();
+			assertEquals("[][]\n[][W]", play.doCommand(1,1,"S","TR"));
+		}
+		
+		//individual commands
+		//turn left commands
+		@Test
 		public void turnLeftCommandFromNorthOrientation2X2Board() {
 			GameState play = new GameState();
 			assertEquals("[][]\n[][W]", play.doCommand(1,1,"N","TL"));
 		}
 		
-		
+		@Test
+		public void turnLeftCommandFromEastOrientation2X2Board() {
+			GameState play = new GameState();
+			assertEquals("[][]\n[][N]", play.doCommand(1,1,"E","TL"));
+		}		
+				
 		//result showing game state after each command
 		@Test
 		public void driveForwardOnlyCommandWithFullResult2X2Board() {
