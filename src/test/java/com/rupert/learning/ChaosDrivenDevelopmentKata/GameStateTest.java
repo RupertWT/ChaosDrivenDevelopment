@@ -35,9 +35,9 @@ public class GameStateTest {
 		}
 		
 		@Test
-		public void turnLeftCommandFromEastOrientation() {
+		public void turnLeftCommandFromNorthOrientation() {
 			GameState play = new GameState();
-			assertEquals("[][]\n[][N]", play.doCommand(2,1,1,"E","TL"));
+			assertEquals("[][]\n[][W]", play.doCommand(2,1,1,"N","TL"));
 		}
 		
 		
