@@ -16,15 +16,16 @@ public class GameState {
 	
 	public String doCommand(int startRow, int startColumn, String startOrientation, String command) {
 		
+						
 		int newRow = startRow;
-		int newColumn = startColumn;
-		
 		if (command.equals("DF")) {
 			newRow -= 1;
 		} else if (command.equals("DB")) {
 			newRow += 1;
 		}
 
+		int newColumn = startColumn;
+		
 		String finalStringOrientation = reorientate(startOrientation, command);
 		
 		drawBoard(newRow, newColumn, finalStringOrientation);
