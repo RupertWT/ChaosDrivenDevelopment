@@ -137,7 +137,8 @@ public class GameStateTest {
 			GameState play = new GameState();
 			String[] commands = new String[1];
 			commands[0] = "DF";
-			assertEquals("[][]\n[][N]\n\n[][N]\n[][]", play.playCommands(1,1,"N",commands));
+			assertEquals("[][]\n[][N]\n\n[][N]\n[][]", 
+					play.playCommands(1,1,"N",commands));
 		}
 		
 		//result showing game state after two command
@@ -146,7 +147,8 @@ public class GameStateTest {
 			GameState play = new GameState();
 			String[] commands = new String[2];
 			commands[0] = "DF"; commands[1] = "TR";
-			assertEquals("[][]\n[][N]\n\n[][N]\n[][]\n\n[][E]\n[][]", play.playCommands(1,1,"N",commands));
+			assertEquals("[][]\n[][N]\n\n[][N]\n[][]\n\n[][E]\n[][]", 
+					play.playCommands(1,1,"N",commands));
 		}
 		
 		//result showing game state after Kata01.txt example
@@ -155,23 +157,29 @@ public class GameStateTest {
 			GameState play = new GameState();
 			String[] commands = new String[5];
 			commands[0] = "DF"; commands[1] = "TR"; commands[2] = "DB"; commands[3] = "TL"; commands[4] = "DB";
-			assertEquals("[][]\n"
-					+ "[][N]"
-					+ "\n\n"
-					+ "[][N]\n"
-					+ "[][]"
-					+ "\n\n"
-					+ "[][E]\n"
-					+ "[][]"
-					+ "\n\n"
-					+ "[E][]\n"
-					+ "[][]"
-					+ "\n\n"
-					+ "[N][]\n"
-					+ "[][]"
-					+ "\n\n"
-					+ "[][]\n"
-					+ "[N][]", play.playCommands(1,1,"N",commands));
+			assertEquals("[][]\n[][N]\n\n[][N]\n[][]\n\n[][E]\n[][]\n\n[E][]\n[][]\n\n[N][]\n[][]\n\n[][]\n[N][]", 
+					play.playCommands(1,1,"N",commands));
+		}
+		
+		//multiple turns to go beyond 360 degrees
+		@Test
+		public void fiveTurnRights() {
+			GameState play = new GameState();
+			String[] commands = new String[5];
+			commands[0] = "TR"; commands[1] = "TR"; commands[2] = "TR"; commands[3] = "TR"; commands[4] = "TR";
+			assertEquals("[][]\n[][N]\n\n[][]\n[][E]\n\n[][]\n[][S]\n\n[][]\n[][W]\n\n[][]\n[][N]\n\n[][]\n[][E]", 
+					play.playCommands(1,1,"N",commands));
+		}
+		
+		@Test
+		public void tenTurnLefts() {
+			GameState play = new GameState();
+			String[] commands = new String[10];
+			commands[0] = "TL"; commands[1] = "TL"; commands[2] = "TL"; commands[3] = "TL"; commands[4] = "TL";
+			commands[5] = "TL"; commands[6] = "TL"; commands[7] = "TL"; commands[8] = "TL"; commands[9] = "TL";
+			assertEquals("[][]\n[][N]\n\n[][]\n[][W]\n\n[][]\n[][S]\n\n[][]\n[][E]\n\n[][]\n[][N]\n\n[][]\n[][W]"
+					+ "\n\n[][]\n[][S]\n\n[][]\n[][E]\n\n[][]\n[][N]\n\n[][]\n[][W]\n\n[][]\n[][S]", 
+					play.playCommands(1,1,"N",commands));
 		}
 		
 }
