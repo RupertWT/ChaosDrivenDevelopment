@@ -4,25 +4,39 @@ public class GameState {
 
 	private String gameBoard = "";
 	private String gameResults = "[][]\n[][N]";
+	private int gridSize = 2;
 
-	public String playCommands(int gridSize, int rowStartPosition, int columnStartPosition, String startOrientation, String command) {
+	
+	public String playCommands(int startRow, int startColumn, String startOrientation, String command) {
 				
-		return gameResults + "\n\n" + doCommand(gridSize, rowStartPosition, columnStartPosition, startOrientation, command);
+		return gameResults + "\n\n" + doCommand(startRow, startColumn, startOrientation, command);
 		
 	}
 		
-	public String doCommand(int gridSize, int rowStartPosition, int columnStartPosition, String startOrientation, String command) {
+	
+	public String doCommand(int startRow, int startColumn, String startOrientation, String command) {
 		
-		
-		int rowNewPosition = rowStartPosition;
-		int columnNewPosition = columnStartPosition;
+		int newRow = startRow;
+		int newColumn = startColumn;
 		
 		if (command.equals("DF")) {
-			rowNewPosition -= 1;
+			newRow -= 1;
 		} else if (command.equals("DB")) {
-			rowNewPosition += 1;
+			newRow += 1;
 		}
 
+		String finalStringOrientation = reorientate(startOrientation, command);
+		
+		drawBoard(newRow, newColumn, finalStringOrientation);
+
+	    System.out.println("----------\n" + gameBoard);
+        return gameBoard;		    
+	
+	}
+
+
+	private String reorientate(String startOrientation, String command) {
+		
 		OrienationConverter converter = new OrienationConverter();
 		int degreeOrientation = converter.convertToDegrees(startOrientation);
 		
@@ -35,20 +49,15 @@ public class GameState {
 			degreeOrientation -= 90;	
 		}
 		
-		int finalOrientation = degreeOrientation % 360;
-		String Orientation = converter.convertToString(finalOrientation);
+		int finalDegreeOrientation = degreeOrientation % 360;
+		String finalStringOrientation = converter.convertToString(finalDegreeOrientation);
 		
-		drawBoard(gridSize, rowNewPosition, columnNewPosition, Orientation);
-
-	    System.out.println("----------\n" + gameBoard);
-        return gameBoard;		    
-	
+		return finalStringOrientation;
+		
 	}
 
 
-
-
-	private void drawBoard(int gridSize, int rowPosition, int columnPosition, String Orientation) {
+	private void drawBoard(int rowPosition, int columnPosition, String Orientation) {
 
 		int rows = gridSize;
 	    int columns = gridSize;
@@ -78,6 +87,6 @@ public class GameState {
 		}
 	}
 	
-	
-	
+		
 }
+
