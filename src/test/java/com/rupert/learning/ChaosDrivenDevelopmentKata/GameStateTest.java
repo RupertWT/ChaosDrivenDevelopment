@@ -149,4 +149,29 @@ public class GameStateTest {
 			assertEquals("[][]\n[][N]\n\n[][N]\n[][]\n\n[][E]\n[][]", play.playCommands(1,1,"N",commands));
 		}
 		
+		//result showing game state after Kata01.txt example
+		@Test
+		public void Kata01Example() {
+			GameState play = new GameState();
+			String[] commands = new String[5];
+			commands[0] = "DF"; commands[1] = "TR"; commands[2] = "DB"; commands[3] = "TL"; commands[4] = "DB";
+			assertEquals("[][]\n"
+					+ "[][N]"
+					+ "\n\n"
+					+ "[][N]\n"
+					+ "[][]"
+					+ "\n\n"
+					+ "[][E]\n"
+					+ "[][]"
+					+ "\n\n"
+					+ "[E][]\n"
+					+ "[][]"
+					+ "\n\n"
+					+ "[N][]\n"
+					+ "[][]"
+					+ "\n\n"
+					+ "[][]\n"
+					+ "[N][]", play.playCommands(1,1,"N",commands));
+		}
+		
 }

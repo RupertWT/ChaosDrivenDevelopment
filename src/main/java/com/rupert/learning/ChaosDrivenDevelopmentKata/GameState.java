@@ -5,37 +5,49 @@ public class GameState {
 	private String gameBoard = "";
 	private String gameResults = "[][]\n[][N]";
 	private int gridSize = 2;
+	private int activeRow = 0;
+	private int activeColumn = 0;
+	private String activeOrientation = "";
 
+	
+	
 	
 	public String playCommands(int startRow, int startColumn, String startOrientation, String[] commands) {
 		
-		String command = "";
+		activeRow = startRow;
+		activeColumn = startColumn;
+		activeOrientation = startOrientation;
+		
 		for (int i = 0; i < commands.length; i++) {
 			
-			command = commands[i].toString();
+			String command = commands[i].toString();
 			
-			//doCommand uses startRow & startColumn need to adjust if it's been used once			
-			gameBoard = doCommand(startRow, startColumn, startOrientation, command);
-			
+			gameBoard = doCommand(activeRow, activeColumn, activeOrientation, command);
 			gameResults += "\n\n";
 			gameResults += gameBoard;
 			
 		}
 			
 		return gameResults;
-		
+	}
+
+	
+	
+
+	private void clearGameBoard() {
+		gameBoard = "";
 	}
 		
 	
+	
+	
 	public String doCommand(int startRow, int startColumn, String startOrientation, String command) {
 		
-		int newRow = verticalMove(startRow, startOrientation, command);
-		int newColumn = horizontalMove(startColumn, startOrientation, command);
-		String finalStringOrientation = reorientate(startOrientation, command);
-		
-		drawBoard(newRow, newColumn, finalStringOrientation);
+		moveVertically(startRow, startOrientation, command);
+		moveHorizontally(startColumn, startOrientation, command);
+		reorientate(startOrientation, command);
+		drawBoard(activeRow, activeColumn, activeOrientation);
 
-	    System.out.println("----------\n" + gameBoard);
         return gameBoard;		    
 	
 	}
@@ -43,7 +55,7 @@ public class GameState {
 
 	
 
-	private int verticalMove(int startRow, String startOrientation, String command) {
+	private void moveVertically(int startRow, String startOrientation, String command) {
 		
 		int newRow = startRow;
 		if (startOrientation.equals("N")) {			
@@ -66,11 +78,13 @@ public class GameState {
 		
 		checkForOffMapExceptions(newRow);
 		
-		System.out.println(newRow);
-		return newRow;
+		activeRow = newRow;
 	}
 
-	private int horizontalMove(int startColumn, String startOrientation, String command) {
+	
+	
+	
+	private void moveHorizontally(int startColumn, String startOrientation, String command) {
 		int newColumn = startColumn;
 		if (startOrientation.equals("W")) {
 			if (command.equals("DF")) {
@@ -92,9 +106,11 @@ public class GameState {
 		
 		checkForOffMapExceptions(newColumn);
 		
-		return newColumn;
+		activeColumn = newColumn;
 	}
 
+	
+	
 
 	private void checkForOffMapExceptions(int columnOrRow) {
 		if (columnOrRow >= gridSize || columnOrRow < 0) {
@@ -102,7 +118,10 @@ public class GameState {
 		}
 	}
 
-	private String reorientate(String startOrientation, String command) {
+	
+	
+	
+	private void reorientate(String startOrientation, String command) {
 		
 		OrientationConverter converter = new OrientationConverter();
 		int degreeOrientation = converter.convertToDegrees(startOrientation);
@@ -119,13 +138,17 @@ public class GameState {
 		int finalDegreeOrientation = degreeOrientation % 360;
 		String finalStringOrientation = converter.convertToString(finalDegreeOrientation);
 		
-		return finalStringOrientation;
+		activeOrientation = finalStringOrientation;
 		
 	}
 
+	
+	
 
 	private void drawBoard(int rowPosition, int columnPosition, String Orientation) {
 
+		clearGameBoard();
+		
 		int rows = gridSize;
 	    int columns = gridSize;
 	    String startBox = "[";		    
@@ -152,8 +175,6 @@ public class GameState {
 
 		    }
 		}
-	}
-	
-		
+	}		
 }
 
