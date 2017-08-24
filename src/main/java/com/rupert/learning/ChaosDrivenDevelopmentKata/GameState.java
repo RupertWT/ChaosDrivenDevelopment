@@ -13,7 +13,10 @@ public class GameState {
 		for (int i = 0; i < commands.length; i++) {
 			
 			command = commands[i].toString();
+			
+			//doCommand uses startRow & startColumn need to adjust if it's been used once			
 			gameBoard = doCommand(startRow, startColumn, startOrientation, command);
+			
 			gameResults += "\n\n";
 			gameResults += gameBoard;
 			
