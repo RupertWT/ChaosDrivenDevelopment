@@ -37,7 +37,7 @@ public class GameState {
 
 	private String reorientate(String startOrientation, String command) {
 		
-		OrienationConverter converter = new OrienationConverter();
+		OrientationConverter converter = new OrientationConverter();
 		int degreeOrientation = converter.convertToDegrees(startOrientation);
 		
 		if (command.equals("TR")) {

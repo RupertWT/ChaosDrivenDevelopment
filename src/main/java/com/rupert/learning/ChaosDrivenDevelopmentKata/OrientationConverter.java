@@ -3,7 +3,7 @@ package com.rupert.learning.ChaosDrivenDevelopmentKata;
 import java.util.Dictionary;
 import java.util.Hashtable;
 
-public class OrienationConverter {
+public class OrientationConverter {
 
 	public int convertToDegrees (String s) {
 		return toDegreeOrientation().get(s);
