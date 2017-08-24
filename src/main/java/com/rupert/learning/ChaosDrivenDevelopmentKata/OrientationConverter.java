@@ -32,7 +32,6 @@ public class OrientationConverter {
 		toStringDictionary.put(90, "E");
 		toStringDictionary.put(180, "S");
 		toStringDictionary.put(270, "W");
-		toStringDictionary.put(360, "N");
 		
 	    return toStringDictionary;
 	  
