@@ -2,17 +2,17 @@ package com.rupert.learning.ChaosDrivenDevelopmentKata;
 
 public class GameState {
 
-	private String gameBoard = "";
+	private String gameBoard;
 	private String gameResults = "[][]\n[][N]";
-	private int gridSize = 2;
-	private int activeRow = 0;
-	private int activeColumn = 0;
-	private String activeOrientation = "";
+	private int globalGridSize;
+	private int activeRow;
+	private int activeColumn;
+	private String activeOrientation;
 
 	
 	
 	
-	public String playCommands(int startRow, int startColumn, String startOrientation, String[] commands) {
+	public String playCommands(int startRow, int startColumn, String startOrientation, String[] commands, int gridSize) {
 		
 		activeRow = startRow;
 		activeColumn = startColumn;
@@ -22,7 +22,7 @@ public class GameState {
 			
 			String command = commands[i].toString();
 			
-			gameBoard = doCommand(activeRow, activeColumn, activeOrientation, command);
+			gameBoard = doCommand(activeRow, activeColumn, activeOrientation, command, gridSize);
 			gameResults += "\n\n";
 			gameResults += gameBoard;
 			
@@ -41,8 +41,9 @@ public class GameState {
 	
 	
 	
-	public String doCommand(int startRow, int startColumn, String startOrientation, String command) {
+	public String doCommand(int startRow, int startColumn, String startOrientation, String command, int gridSize) {
 		
+		setBoardSize(gridSize);
 		moveVertically(startRow, startOrientation, command);
 		moveHorizontally(startColumn, startOrientation, command);
 		reorientate(startOrientation, command);
@@ -50,6 +51,13 @@ public class GameState {
 
         return gameBoard;		    
 	
+	}
+
+
+
+
+	private void setBoardSize(int gridSize) {
+		globalGridSize = gridSize;
 	}
 
 
@@ -113,7 +121,7 @@ public class GameState {
 	
 
 	private void checkForOffMapExceptions(int columnOrRow) {
-		if (columnOrRow >= gridSize || columnOrRow < 0) {
+		if (columnOrRow >= globalGridSize || columnOrRow < 0) {
 			throw new IllegalArgumentException("The avatar has fallen off the map!");
 		}
 	}
@@ -149,8 +157,8 @@ public class GameState {
 
 		clearGameBoard();
 		
-		int rows = gridSize;
-	    int columns = gridSize;
+		int rows = globalGridSize;
+	    int columns = globalGridSize;
 	    String startBox = "[";		    
 	    String endBox = "]";
 		String box = "";
