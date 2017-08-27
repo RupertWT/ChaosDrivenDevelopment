@@ -136,11 +136,17 @@ public class GameState {
 		
 		if (command.equals("TR")) {
 			degreeOrientation += 90;
-		} else if (command.equals("TL")) {
+		} 
+		
+		if (command.equals("TL")) {
 			if (degreeOrientation == 0) {
 				degreeOrientation += 360;
 			}
 			degreeOrientation -= 90;	
+		}
+		
+		if (command.equals("UT")) {
+			degreeOrientation += 180;
 		}
 		
 		int finalDegreeOrientation = degreeOrientation % 360;

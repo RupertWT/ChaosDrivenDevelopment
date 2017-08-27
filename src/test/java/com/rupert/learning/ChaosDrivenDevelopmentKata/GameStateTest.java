@@ -108,6 +108,25 @@ public class GameStateTest {
 			assertEquals("[][]\n[][S]", play.doCommand(1,1,"N","UT",2));
 		}
 		
+		@Test
+		public void uTurnCommandFromSouthOrientation2X2Board() {
+			GameState play = new GameState();
+			assertEquals("[][]\n[][N]", play.doCommand(1,1,"S","UT",2));
+		}
+		
+		@Test
+		public void uTurnCommandFromWestOrientation2X2Board() {
+			GameState play = new GameState();
+			assertEquals("[][]\n[][E]", play.doCommand(1,1,"W","UT",2));
+		}
+		
+		@Test
+		public void uTurnCommandFromEastOrientation2X2Board() {
+			GameState play = new GameState();
+			assertEquals("[][]\n[][W]", play.doCommand(1,1,"E","UT",2));
+		}
+		
+		
 		//result showing game state after one command
 		@Test
 		public void driveForwardOnlyCommandWithFullResult2X2Board() {
