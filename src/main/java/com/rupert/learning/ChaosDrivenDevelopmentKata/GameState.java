@@ -23,8 +23,7 @@ public class GameState {
 			String command = commands[i].toString();
 			
 			gameBoard = doCommand(activeRow, activeColumn, activeOrientation, command, gridSize);
-			gameResults += "\n\n";
-			gameResults += gameBoard;
+			gameResults += "\n\n" + gameBoard;
 			
 		}
 			
@@ -33,20 +32,13 @@ public class GameState {
 
 	
 	
-
-	private void clearGameBoard() {
-		gameBoard = "";
-	}
-		
 	
-	
-	
-	public String doCommand(int startRow, int startColumn, String startOrientation, String command, int gridSize) {
+	public String doCommand(int row, int column, String orientation, String command, int gridSize) {
 		
 		setBoardSize(gridSize);
-		moveVertically(startRow, startOrientation, command);
-		moveHorizontally(startColumn, startOrientation, command);
-		reorientate(startOrientation, command);
+		moveVertically(row, orientation, command);
+		moveHorizontally(column, orientation, command);
+		reorientate(orientation, command);
 		drawBoard(activeRow, activeColumn, activeOrientation);
 
         return gameBoard;		    
@@ -63,10 +55,10 @@ public class GameState {
 
 	
 
-	private void moveVertically(int startRow, String startOrientation, String command) {
+	private void moveVertically(int row, String orientation, String command) {
 		
-		int newRow = startRow;
-		if (startOrientation.equals("N")) {			
+		int newRow = row;
+		if (orientation.equals("N")) {			
 			if (command.equals("DF")) {
 				newRow -= 1;
 			} 
@@ -75,7 +67,7 @@ public class GameState {
 			}
 		}
 		
-		if (startOrientation.equals("S")) {			
+		if (orientation.equals("S")) {			
 			if (command.equals("DF")) {
 				newRow += 1;
 			} 
@@ -92,9 +84,9 @@ public class GameState {
 	
 	
 	
-	private void moveHorizontally(int startColumn, String startOrientation, String command) {
-		int newColumn = startColumn;
-		if (startOrientation.equals("W")) {
+	private void moveHorizontally(int column, String orientation, String command) {
+		int newColumn = column;
+		if (orientation.equals("W")) {
 			if (command.equals("DF")) {
 				newColumn -= 1;
 			} 
@@ -103,7 +95,7 @@ public class GameState {
 			}
 		}
 		
-		if (startOrientation.equals("E")) {
+		if (orientation.equals("E")) {
 			if (command.equals("DF")) {
 				newColumn += 1;
 			} 
@@ -129,20 +121,17 @@ public class GameState {
 	
 	
 	
-	private void reorientate(String startOrientation, String command) {
+	private void reorientate(String orientation, String command) {
 		
 		OrientationConverter converter = new OrientationConverter();
-		int degreeOrientation = converter.convertToDegrees(startOrientation);
+		int degreeOrientation = converter.convertToDegrees(orientation);
 		
 		if (command.equals("TR")) {
 			degreeOrientation += 90;
 		} 
 		
 		if (command.equals("TL")) {
-			if (degreeOrientation == 0) {
-				degreeOrientation += 360;
-			}
-			degreeOrientation -= 90;	
+			degreeOrientation += 270;	
 		}
 		
 		if (command.equals("UT")) {
@@ -159,29 +148,29 @@ public class GameState {
 	
 	
 
-	private void drawBoard(int rowPosition, int columnPosition, String Orientation) {
+	private void drawBoard(int row, int column, String orientation) {
 
 		clearGameBoard();
-		
+	
 		int rows = globalGridSize;
 	    int columns = globalGridSize;
 	    String startBox = "[";		    
 	    String endBox = "]";
 		String box = "";
 
-		for (int row = 0; row < rows; row++) {
+		for (int rowPosition = 0; rowPosition < rows; rowPosition++) {
 
-			for (int col = 0; col < columns; col++) {
+			for (int columnPosition = 0; columnPosition < columns; columnPosition++) {
 
-				if (row == rowPosition && col == columnPosition) {
-					box = startBox + Orientation + endBox;
+				if (rowPosition == row && columnPosition == column) {
+					box = startBox + orientation + endBox;
 				} else {
 					box = startBox + endBox;
 				}
 
-				if (row == 0) {
+				if (rowPosition == 0) {
 					gameBoard += box;
-				} else if (col == 0) {
+				} else if (columnPosition == 0) {
 					gameBoard += "\n" + box;
 				} else {
 					gameBoard += box;
@@ -189,6 +178,16 @@ public class GameState {
 
 		    }
 		}
-	}		
+	}
+	
+	
+	
+	
+	
+	
+
+	private void clearGameBoard() {
+		gameBoard = "";
+	}
 }
 
