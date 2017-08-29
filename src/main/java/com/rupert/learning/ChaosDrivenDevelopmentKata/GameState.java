@@ -12,15 +12,15 @@ public class GameState {
 	
 	
 	
-	public String playCommands(int startRow, int startColumn, String startOrientation, String[] commands, int gridSize) {
+	public String playCommands(int startRow, int startColumn, String startOrientation, String[] startCommands, int gridSize) {
 		
 		activeRow = startRow;
 		activeColumn = startColumn;
 		activeOrientation = startOrientation;
 		
-		for (int i = 0; i < commands.length; i++) {
+		for (int i = 0; i < startCommands.length; i++) {
 			
-			String command = commands[i].toString();
+			String command = startCommands[i].toString();
 			
 			gameBoard = doCommand(activeRow, activeColumn, activeOrientation, command, gridSize);
 			gameResults += "\n\n" + gameBoard;
@@ -31,8 +31,8 @@ public class GameState {
 	}
 
 	
-	
-	
+		
+		
 	public String doCommand(int row, int column, String orientation, String command, int gridSize) {
 		
 		setBoardSize(gridSize);
