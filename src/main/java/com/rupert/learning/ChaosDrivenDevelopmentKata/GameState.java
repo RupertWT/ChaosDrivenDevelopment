@@ -167,10 +167,8 @@ public class GameState {
 				} else {
 					box = startBox + endBox;
 				}
-
-				if (rowPosition == 0) {
-					gameBoard += box;
-				} else if (columnPosition == 0) {
+				
+				if (columnPosition == 0 && rowPosition != 0) {
 					gameBoard += "\n" + box;
 				} else {
 					gameBoard += box;

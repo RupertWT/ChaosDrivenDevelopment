@@ -126,59 +126,53 @@ public class GameStateTest {
 			assertEquals("[][]\n[][W]", play.doCommand(1,1,"E","UT",2));
 		}
 		
-		
+		//--------------------multiple commands--------------------		
 		//result showing game state after one command
 		@Test
 		public void driveForwardOnlyCommandWithFullResult2X2Board() {
 		GameState play = new GameState();
-		String[] commands = new String[1];
-		commands[0] = "DF";
+		String[] testCommands = new String[] {"DF"};
 		assertEquals("[][]\n[][N]\n\n[][N]\n[][]", 
-					play.playCommands(1,1,"N",commands,2));
+					play.playCommands(1,1,"N",testCommands,2));
 		}
 			
 		//result showing game state after two command
 		@Test
 		public void driveForwardThenTurnRightCommandsWithFullResult2X2Board() {
 			GameState play = new GameState();
-			String[] commands = new String[2];
-			commands[0] = "DF"; commands[1] = "TR";
+			String[] testCommands = new String[] {"DF","TR"};
 			assertEquals("[][]\n[][N]\n\n[][N]\n[][]\n\n[][E]\n[][]", 
-					play.playCommands(1,1,"N",commands,2));
+					play.playCommands(1,1,"N",testCommands,2));
 		}
 		
 		//result showing game state after Kata01.txt example
 		@Test
 		public void Kata01Example() {
 			GameState play = new GameState();
-			String[] commands = new String[5];
-			commands[0] = "DF"; commands[1] = "TR"; commands[2] = "DB"; commands[3] = "TL"; commands[4] = "DB";
+			String[] testCommands = new String[] {"DF","TR","DB","TL","DB"};
 			assertEquals("[][]\n[][N]\n\n[][N]\n[][]\n\n[][E]\n[][]\n\n[E][]\n[][]\n\n[N][]\n[][]\n\n[][]\n[N][]", 
-					play.playCommands(1,1,"N",commands,2));
+					play.playCommands(1,1,"N",testCommands,2));
 		}
 		
 		//multiple turns to go beyond 360 degrees
 		@Test
 		public void fiveTurnRights() {
 			GameState play = new GameState();
-			String[] commands = new String[5];
-			commands[0] = "TR"; commands[1] = "TR"; commands[2] = "TR"; commands[3] = "TR"; commands[4] = "TR";
+			String[] testCommands = new String[] {"TR","TR","TR","TR","TR"};
 			assertEquals("[][]\n[][N]\n\n[][]\n[][E]\n\n[][]\n[][S]\n\n[][]\n[][W]\n\n[][]\n[][N]\n\n[][]\n[][E]", 
-					play.playCommands(1,1,"N",commands,2));
+					play.playCommands(1,1,"N",testCommands,2));
 		}
 		
 		@Test
 		public void tenTurnLefts() {
 			GameState play = new GameState();
-			String[] commands = new String[10];
-			commands[0] = "TL"; commands[1] = "TL"; commands[2] = "TL"; commands[3] = "TL"; commands[4] = "TL";
-			commands[5] = "TL"; commands[6] = "TL"; commands[7] = "TL"; commands[8] = "TL"; commands[9] = "TL";
+			String[] testCommands = new String[] {"TL","TL","TL","TL","TL","TL","TL","TL","TL","TL"};
 			assertEquals("[][]\n[][N]\n\n[][]\n[][W]\n\n[][]\n[][S]\n\n[][]\n[][E]\n\n[][]\n[][N]\n\n[][]\n[][W]"
 					+ "\n\n[][]\n[][S]\n\n[][]\n[][E]\n\n[][]\n[][N]\n\n[][]\n[][W]\n\n[][]\n[][S]", 
-					play.playCommands(1,1,"N",commands,2));
+					play.playCommands(1,1,"N",testCommands,2));
 		}
 		
-		//exceptions
+		//--------------------exceptions--------------------
 		//drive off board
 		@Test
 		public void exceptionDriveBackwardsFromPosition11NorthOrientation2X2Board() {
