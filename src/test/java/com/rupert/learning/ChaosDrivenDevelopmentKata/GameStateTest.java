@@ -126,7 +126,7 @@ public class GameStateTest {
 			assertEquals("[][]\n[][W]", play.doCommand(1,1,"E","UT",2));
 		}
 		
-		//--------------------multiple commands--------------------		
+	//--------------------multiple commands--------------------		
 		//result showing game state after one command
 		@Test
 		public void driveForwardOnlyCommandWithFullResult2X2Board() {
@@ -172,7 +172,7 @@ public class GameStateTest {
 					play.playCommands(1,1,"N",testCommands,2));
 		}
 		
-		//--------------------exceptions--------------------
+	//--------------------exceptions--------------------
 		//drive off board
 		@Test
 		public void exceptionDriveBackwardsFromPosition11NorthOrientation2X2Board() {
