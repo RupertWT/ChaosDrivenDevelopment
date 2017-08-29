@@ -156,7 +156,7 @@ public class GameState {
 	    int columns = globalGridSize;
 	    String startBox = "[";		    
 	    String endBox = "]";
-		String box = "";
+		String box;
 
 		for (int rowPosition = 0; rowPosition < rows; rowPosition++) {
 
