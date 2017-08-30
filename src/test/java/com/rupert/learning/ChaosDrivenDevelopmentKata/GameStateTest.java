@@ -2,6 +2,7 @@ package com.rupert.learning.ChaosDrivenDevelopmentKata;
 
 import static org.junit.Assert.assertEquals;
 
+import org.junit.Ignore;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
@@ -10,19 +11,21 @@ public class GameStateTest {
 				
 		@Rule
 		public ExpectedException thrown= ExpectedException.none();
-	
+
 	//--------------------individual commands--------------------
 		//no commands
 		@Test
 		public void noCommandGivesStarting2X2Board() {
 			GameState play = new GameState();
-			assertEquals("[][]\n[][N]", play.doCommand(1,1,"N","",2));
+			String[] testCommands = new String[0];
+			assertEquals("[][]\n[][N]", play.playCommands(1,1,"N",testCommands,2));
 		}
 		
 		@Test
 		public void noCommandGivesStarting3X3Board() {
 			GameState play = new GameState();
-			assertEquals("[][][]\n[][][]\n[][][N]", play.doCommand(2,2,"N","",3));
+			String[] testCommands = new String[0];
+			assertEquals("[][][]\n[][][]\n[][][N]", play.playCommands(2,2,"N",testCommands,3));
 		}
 		
 		//drive forward commands
@@ -50,6 +53,35 @@ public class GameStateTest {
 			assertEquals("[][]\n[][E]", play.doCommand(1,0,"E","DF",2));
 		}
 		
+		//drive forward commands complex variant
+		@Test
+		public void driveForward2CommandNorthOrientation3X3Board() {
+			GameState play = new GameState();
+			assertEquals("[][][N]\n[][][]\n[][][]",
+					play.doCommand(2,2,"N","DF 2",3));
+		}
+		
+		@Test
+		public void driveForward2CommandSouthOrientation3X3Board() {
+			GameState play = new GameState();
+			assertEquals("[][][]\n[][][]\n[][][S]",
+					play.doCommand(0,2,"S","DF 2",3));
+		}
+		
+		@Test
+		public void driveForward2CommandWestOrientation3X3Board() {
+			GameState play = new GameState();
+			assertEquals("[][][]\n[][][]\n[W][][]",
+					play.doCommand(2,2,"W","DF 2",3));
+		}
+		
+		@Test
+		public void driveForward2CommandEastOrientation3X3Board() {
+			GameState play = new GameState();
+			assertEquals("[][][]\n[][][]\n[][][E]",
+					play.doCommand(2,0,"E","DF 2",3));
+		}
+		
 		//drive backwards commands
 		@Test
 		public void driveBackwardCommandNorthOrientation2X2Board() {
@@ -74,7 +106,36 @@ public class GameStateTest {
 			GameState play = new GameState();
 			assertEquals("[E][]\n[][]", play.doCommand(0,1,"E","DB",2));
 		}
-					
+		
+		//drive backwards commands complex variant
+		@Test
+		public void driveBackward2CommandNorthOrientation3X3Board() {
+			GameState play = new GameState();
+			assertEquals("[][][]\n[][][]\n[N][][]",
+					play.doCommand(0,0,"N","DB 2",3));
+		}
+				
+		@Test
+		public void driveBackward2CommandSouthOrientation3X3Board() {
+			GameState play = new GameState();
+			assertEquals("[][][S]\n[][][]\n[][][]",
+					play.doCommand(2,2,"S","DB 2",3));
+		}
+		
+		@Test
+		public void driveBackward2CommandWestOrientation3X3Board() {
+			GameState play = new GameState();
+			assertEquals("[][][]\n[][][]\n[][][W]",
+					play.doCommand(2,0,"W","DB 2",3));
+		}
+		
+		@Test
+		public void driveBackward2CommandEastOrientation3X3Board() {
+			GameState play = new GameState();
+			assertEquals("[E][][]\n[][][]\n[][][]",
+					play.doCommand(0,2,"E","DB 2",3));
+		}
+		
 		//turn right commands
 		@Test
 		public void turnRightCommandFromNorthOrientation2X2Board() {
@@ -144,16 +205,7 @@ public class GameStateTest {
 			assertEquals("[][]\n[][N]\n\n[][N]\n[][]\n\n[][E]\n[][]", 
 					play.playCommands(1,1,"N",testCommands,2));
 		}
-		
-		//result showing game state after Kata01.txt example
-		@Test
-		public void Kata01Example() {
-			GameState play = new GameState();
-			String[] testCommands = new String[] {"DF","TR","DB","TL","DB"};
-			assertEquals("[][]\n[][N]\n\n[][N]\n[][]\n\n[][E]\n[][]\n\n[E][]\n[][]\n\n[N][]\n[][]\n\n[][]\n[N][]", 
-					play.playCommands(1,1,"N",testCommands,2));
-		}
-		
+					
 		//multiple turns to go beyond 360 degrees
 		@Test
 		public void fiveTurnRights() {
@@ -211,8 +263,26 @@ public class GameStateTest {
 		//invalid - start out of bounds
 		//invalid - grid size 0
 		//invalid 
+
 		
+	//--------------------kata.txt file examples--------------------
+		//result showing game state after Kata01.txt example
+		@Test
+		public void kata01Example() {
+			GameState play = new GameState();
+			String[] testCommands = new String[] {"DF","TR","DB","TL","DB"};
+			assertEquals("[][]\n[][N]\n\n[][N]\n[][]\n\n[][E]\n[][]\n\n[E][]\n[][]\n\n[N][]\n[][]\n\n[][]\n[N][]", 
+					play.playCommands(1,1,"N",testCommands,2));
+		}
 		
+		//result showing game state after Kata02.txt example
+		@Test
+		public void kata02Example() {
+			GameState play = new GameState();
+			String[] testCommands = new String[] {"DF 1","TL","DF 2"};
+			assertEquals("[][][]\n[][][]\n[][][N]\n\n[][][]\n[][][N]\n[][][]\n\n[][][]\n[][][W]\n[][][]\n\n[][][]\n[W][][]\n[][][]",
+					play.playCommands(2,2,"N",testCommands,3));
+		}
 		
 		
 }

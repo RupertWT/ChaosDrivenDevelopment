@@ -3,7 +3,7 @@ package com.rupert.learning.ChaosDrivenDevelopmentKata;
 public class GameState {
 
 	private String gameBoard;
-	private String gameResults = "[][]\n[][N]";
+	private String gameResults;
 	private int globalGridSize;
 	private int activeRow;
 	private int activeColumn;
@@ -18,6 +18,8 @@ public class GameState {
 		activeColumn = startColumn;
 		activeOrientation = startOrientation;
 		
+		drawStartingBoard(gridSize);
+		
 		for (int i = 0; i < startCommands.length; i++) {
 			
 			String command = startCommands[i].toString();
@@ -26,8 +28,16 @@ public class GameState {
 			gameResults += "\n\n" + gameBoard;
 			
 		}
-			
+		
+		System.out.println(gameResults);
 		return gameResults;
+	}
+
+
+
+
+	private void drawStartingBoard(int gridSize) {
+		gameResults = doCommand(activeRow, activeColumn, activeOrientation, "", gridSize);
 	}
 
 	
@@ -57,22 +67,30 @@ public class GameState {
 
 	private void moveVertically(int row, String orientation, String command) {
 		
+		int moveDistance = 1;
+		
+		if (command.length() > 2) {
+			moveDistance = Character.getNumericValue(command.charAt(3));
+			command = command.substring(0,2);
+		} 
+		
 		int newRow = row;
+		
 		if (orientation.equals("N")) {			
 			if (command.equals("DF")) {
-				newRow -= 1;
+				newRow -= moveDistance;
 			} 
 			if (command.equals("DB")) {
-				newRow += 1;
+				newRow += moveDistance;
 			}
 		}
 		
 		if (orientation.equals("S")) {			
 			if (command.equals("DF")) {
-				newRow += 1;
+				newRow += moveDistance;
 			} 
 			if (command.equals("DB")) {
-				newRow -= 1;
+				newRow -= moveDistance;
 			}
 		}
 		
@@ -85,22 +103,31 @@ public class GameState {
 	
 	
 	private void moveHorizontally(int column, String orientation, String command) {
+		
+		int moveDistance = 1;
+		
+		if (command.length() > 2) {
+			moveDistance = Character.getNumericValue(command.charAt(3));
+			command = command.substring(0,2);
+		} 
+		
 		int newColumn = column;
+		
 		if (orientation.equals("W")) {
 			if (command.equals("DF")) {
-				newColumn -= 1;
+				newColumn -= moveDistance;
 			} 
 			if (command.equals("DB")) {
-				newColumn += 1;
+				newColumn += moveDistance;
 			}
 		}
 		
 		if (orientation.equals("E")) {
 			if (command.equals("DF")) {
-				newColumn += 1;
+				newColumn += moveDistance;
 			} 
 			if (command.equals("DB")) {
-				newColumn -= 1;
+				newColumn -= moveDistance;
 			}
 		}
 		
