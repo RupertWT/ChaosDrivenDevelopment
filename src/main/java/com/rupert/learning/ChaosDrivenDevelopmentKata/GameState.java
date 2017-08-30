@@ -29,7 +29,6 @@ public class GameState {
 			
 		}
 		
-		System.out.println(gameResults);
 		return gameResults;
 	}
 
