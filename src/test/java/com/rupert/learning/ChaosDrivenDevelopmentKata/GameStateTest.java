@@ -2,6 +2,7 @@ package com.rupert.learning.ChaosDrivenDevelopmentKata;
 
 import static org.junit.Assert.assertEquals;
 
+import org.junit.Ignore;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
@@ -257,11 +258,29 @@ public class GameStateTest {
 			play.doCommand(0,0,"W","DF",2);
 		}
 	
-		//TODO
-		//invalid - in command variable
-		//invalid - start out of bounds
-		//invalid - grid size 0
-		//invalid 
+		@Test
+		public void exceptionUnknownCommand() {
+			GameState play = new GameState();
+			thrown.expect(IllegalArgumentException.class);
+			thrown.expectMessage("Command 'X' is not valid!");
+			play.doCommand(1,1,"N","X",2);
+		}
+		
+		@Test
+		public void exceptionZeroGrid() {
+			GameState play = new GameState();
+			thrown.expect(IllegalArgumentException.class);
+			thrown.expectMessage("That grid is infinitely small!");
+			play.doCommand(1,1,"N","DF",0);
+		}
+		
+		@Ignore
+		public void exceptionInvalidStartPosition() {
+			GameState play = new GameState();
+			thrown.expect(IllegalArgumentException.class);
+			thrown.expectMessage("You've started your avatar in an impossible position!");
+			play.doCommand(3,1,"N","DF",2);
+		}
 
 		
 	//--------------------kata.txt file examples--------------------

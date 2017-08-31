@@ -8,9 +8,6 @@ public class GameState {
 	private int activeRow;
 	private int activeColumn;
 	private String activeOrientation;
-
-	
-	
 	
 	public String playCommands(int startRow, int startColumn, String startOrientation, String[] startCommands, int gridSize) {
 		
@@ -33,18 +30,10 @@ public class GameState {
 	}
 
 
-
-
-	private void drawStartingBoard(int gridSize) {
-		gameResults = doCommand(activeRow, activeColumn, activeOrientation, "", gridSize);
-	}
-
-	
-		
-		
 	public String doCommand(int row, int column, String orientation, String command, int gridSize) {
-		
+				
 		setBoardSize(gridSize);
+		checkForInvalidStartPosition(gridSize);
 		moveVertically(row, orientation, command);
 		moveHorizontally(column, orientation, command);
 		reorientate(orientation, command);
@@ -54,16 +43,18 @@ public class GameState {
 	
 	}
 
+	
+	private void drawStartingBoard(int gridSize) {
+		gameResults = doCommand(activeRow, activeColumn, activeOrientation, "", gridSize);
+	}
 
-
-
+	
 	private void setBoardSize(int gridSize) {
+		checkForInvalidGridSize(gridSize);
 		globalGridSize = gridSize;
 	}
 
-
 	
-
 	private void moveVertically(int row, String orientation, String command) {
 		
 		int moveDistance = 1;
@@ -72,6 +63,8 @@ public class GameState {
 			moveDistance = Character.getNumericValue(command.charAt(3));
 			command = command.substring(0,2);
 		} 
+		
+		checkForInvalidCommandException(command);
 		
 		int newRow = row;
 		
@@ -99,8 +92,6 @@ public class GameState {
 	}
 
 	
-	
-	
 	private void moveHorizontally(int column, String orientation, String command) {
 		
 		int moveDistance = 1;
@@ -109,7 +100,7 @@ public class GameState {
 			moveDistance = Character.getNumericValue(command.charAt(3));
 			command = command.substring(0,2);
 		} 
-		
+				
 		int newColumn = column;
 		
 		if (orientation.equals("W")) {
@@ -136,17 +127,6 @@ public class GameState {
 	}
 
 	
-	
-
-	private void checkForOffMapExceptions(int columnOrRow) {
-		if (columnOrRow >= globalGridSize || columnOrRow < 0) {
-			throw new IllegalArgumentException("The avatar has fallen off the map!");
-		}
-	}
-
-	
-	
-	
 	private void reorientate(String orientation, String command) {
 		
 		OrientationConverter converter = new OrientationConverter();
@@ -170,10 +150,8 @@ public class GameState {
 		activeOrientation = finalStringOrientation;
 		
 	}
-
 	
 	
-
 	private void drawBoard(int row, int column, String orientation) {
 
 		clearGameBoard();
@@ -205,13 +183,53 @@ public class GameState {
 	}
 	
 	
-	
-	
-	
-	
-
 	private void clearGameBoard() {
 		gameBoard = "";
 	}
+	
+	
+	
+	
+	// exceptions
+	
+	private void checkForOffMapExceptions(int columnOrRow) {
+		if (columnOrRow >= globalGridSize || columnOrRow < 0) {
+			throw new IllegalArgumentException("The avatar has fallen off the map!");
+		}
+	}
+	
+	private void checkForInvalidCommandException(String command) {
+		String[] validCommands = new String[] {"DF","TR","DB","TL","UT"};
+		boolean valid = false;
+		for (int i = 0; i < validCommands.length; i++) {
+			if (command.equals(validCommands[i]) || command.equals("")) {
+				valid = true;
+				break;
+			}
+		}
+		
+		if (!valid) {
+			throw new IllegalArgumentException("Command '" + command + "' is not valid!");
+		}	
+	}
+	
+	private void checkForInvalidGridSize(int gridSize) {
+		if (gridSize == 0) {
+			throw new IllegalArgumentException("That grid is infinitely small!");
+		}
+		
+	}
+	
+	private void checkForInvalidStartPosition(int gridSize) {
+		
+			if (activeRow > gridSize) {
+				throw new IllegalArgumentException("You've started your avatar in an impossible position!");
+			}
+			if (activeColumn > gridSize) {
+				throw new IllegalArgumentException("You've started your avatar in an impossible position!");
+			}
+			
+	}
+	
 }
 
