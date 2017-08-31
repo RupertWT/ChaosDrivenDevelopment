@@ -4,7 +4,6 @@ public class GameState {
 
 	private String gameBoard;
 	private String gameResults;
-	private int globalGridSize;
 	private int activeRow;
 	private int activeColumn;
 	private String activeOrientation;
@@ -32,11 +31,10 @@ public class GameState {
 
 	public String doCommand(int row, int column, String orientation, String command, int gridSize) {
 				
-		setBoardSize(gridSize);
-		moveVertically(row, orientation, command);
-		moveHorizontally(column, orientation, command);
+		moveVertically(row, orientation, command, gridSize);
+		moveHorizontally(column, orientation, command, gridSize);
 		reorientate(orientation, command);
-		drawBoard(activeRow, activeColumn, activeOrientation);
+		drawBoard(activeRow, activeColumn, activeOrientation, gridSize);
 
         return gameBoard;		    
 	
@@ -48,13 +46,7 @@ public class GameState {
 	}
 
 	
-	private void setBoardSize(int gridSize) {
-		checkForInvalidGridSize(gridSize);
-		globalGridSize = gridSize;
-	}
-
-	
-	private void moveVertically(int row, String orientation, String command) {
+	private void moveVertically(int row, String orientation, String command, int gridSize) {
 		
 		int moveDistance = 1;
 		
@@ -62,9 +54,7 @@ public class GameState {
 			moveDistance = Character.getNumericValue(command.charAt(3));
 			command = command.substring(0,2);
 		} 
-		
-		checkForInvalidCommandException(command);
-		
+				
 		int newRow = row;
 		
 		if (orientation.equals("N")) {			
@@ -85,13 +75,15 @@ public class GameState {
 			}
 		}
 		
-		checkForOffMapExceptions(newRow);
+		checkForInvalidGridSize(gridSize);
+		checkForInvalidCommandException(command);
+		checkForOffMapExceptions(newRow, gridSize);
 		
 		activeRow = newRow;
 	}
 
 	
-	private void moveHorizontally(int column, String orientation, String command) {
+	private void moveHorizontally(int column, String orientation, String command, int gridSize) {
 		
 		int moveDistance = 1;
 		
@@ -120,7 +112,7 @@ public class GameState {
 			}
 		}
 		
-		checkForOffMapExceptions(newColumn);
+		checkForOffMapExceptions(newColumn, gridSize);
 		
 		activeColumn = newColumn;
 	}
@@ -151,12 +143,12 @@ public class GameState {
 	}
 	
 	
-	private void drawBoard(int row, int column, String orientation) {
+	private void drawBoard(int row, int column, String orientation, int gridSize) {
 
 		clearGameBoard();
 	
-		int rows = globalGridSize;
-	    int columns = globalGridSize;
+		int rows = gridSize;
+	    int columns = gridSize;
 	    String startBox = "[";		    
 	    String endBox = "]";
 		String box;
@@ -191,8 +183,8 @@ public class GameState {
 	
 	// exceptions
 	
-	private void checkForOffMapExceptions(int columnOrRow) {
-		if (columnOrRow >= globalGridSize || columnOrRow < 0) {
+	private void checkForOffMapExceptions(int columnOrRow, int gridSize) {
+		if (columnOrRow >= gridSize || columnOrRow < 0) {
 			throw new IllegalArgumentException("The avatar has fallen off the map!");
 		}
 	}
