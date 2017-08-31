@@ -33,7 +33,6 @@ public class GameState {
 	public String doCommand(int row, int column, String orientation, String command, int gridSize) {
 				
 		setBoardSize(gridSize);
-		checkForInvalidStartPosition(gridSize);
 		moveVertically(row, orientation, command);
 		moveHorizontally(column, orientation, command);
 		reorientate(orientation, command);
@@ -220,16 +219,7 @@ public class GameState {
 		
 	}
 	
-	private void checkForInvalidStartPosition(int gridSize) {
-		
-			if (activeRow > gridSize) {
-				throw new IllegalArgumentException("You've started your avatar in an impossible position!");
-			}
-			if (activeColumn > gridSize) {
-				throw new IllegalArgumentException("You've started your avatar in an impossible position!");
-			}
-			
-	}
+	
 	
 }
 

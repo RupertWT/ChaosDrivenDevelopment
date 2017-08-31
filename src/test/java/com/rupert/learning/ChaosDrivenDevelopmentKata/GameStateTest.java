@@ -2,7 +2,6 @@ package com.rupert.learning.ChaosDrivenDevelopmentKata;
 
 import static org.junit.Assert.assertEquals;
 
-import org.junit.Ignore;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
@@ -274,11 +273,11 @@ public class GameStateTest {
 			play.doCommand(1,1,"N","DF",0);
 		}
 		
-		@Ignore
+		@Test
 		public void exceptionInvalidStartPosition() {
 			GameState play = new GameState();
 			thrown.expect(IllegalArgumentException.class);
-			thrown.expectMessage("You've started your avatar in an impossible position!");
+			thrown.expectMessage("The avatar has fallen off the map!");
 			play.doCommand(3,1,"N","DF",2);
 		}
 
